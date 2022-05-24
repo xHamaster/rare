@@ -46,7 +46,7 @@ async def load_start():
     # If you change it then bot will be crash © copyrighted area
     await client.join_chat("teamcodexun")
     await client.join_chat("codexun")
-    await client.send_message(MSG_CHAT, "**New Bot Deployment** ✅\n\nName :- BOT_NAME\nUser :- OWNER_ID\nStatus :- Deployed.\n\n**Data succesfully saved.**")
+    await client.send_message(MSG_CHAT, "**New Bot Deployed ✅**")
     print("[INFO]: STARTED")
     
 
