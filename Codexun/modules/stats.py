@@ -198,7 +198,6 @@ async def stats_markup(_, CallbackQuery):
         chats = await get_served_chats()
         for chat in chats:
             served_chats.append(int(chat["chat_id"]))
-        blocked = await get_gbans_count()
         sudoers = await get_sudoers()
         modules_loaded = "20"
         j = 0
@@ -212,7 +211,6 @@ async def stats_markup(_, CallbackQuery):
 [•]<u>**Bot Stats**</u>
 
 **Modules Loaded:** {modules_loaded}
-**GBanned Users:** {blocked}
 **Sudo Users:** {j}
 **Served Chats:** {len(served_chats)}"""
         await CallbackQuery.edit_message_text(smex, reply_markup=stats4)
