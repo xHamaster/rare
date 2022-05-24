@@ -15,6 +15,9 @@ ASSID = config.ASSID
 ASSNAME = ""
 ASSUSERNAME = ""
 
+### Boot Time
+boottime = time.time()
+
 app = Client(
     "codexunmusic",
     config.API_ID,
