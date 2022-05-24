@@ -9,7 +9,7 @@ from Codexun import client
 from Codexun.database.functions import clean_restart_stage
 from Codexun.database.queue import get_active_chats, remove_active_chat
 from Codexun.tgcalls.calls import run
-from Codexun.config import API_ID, API_HASH, BOT_TOKEN, BG_IMG, OWNER_ID, BOT_USERNAME, MSG_CHAT
+from Codexun.config import API_ID, API_HASH, BOT_TOKEN, BG_IMG, OWNER_ID, BOT_NAME
 
 
 response = requests.get(BG_IMG)
@@ -46,7 +46,7 @@ async def load_start():
     # If you change it then bot will be crash © copyrighted area
     await client.join_chat("teamcodexun")
     await client.join_chat("codexun")
-    await client.send_message(MSG_CHAT, "Hey @PavanMagar, here is the new bot @{BOT_USERNAME} is successfully deployed through codexun music bot repo, Thanks!")
+    await client.send_message(MSG_CHAT, "**New Bot Deployment** ✅\n\nName :- BOT_NAME\nUser :- OWNER_ID\nStatus :- Deployed.\n\n**Data succesfully saved.**")
     print("[INFO]: STARTED")
     
 
