@@ -17,6 +17,7 @@ from pyrogram.types import (
     Message,
 )
 from Codexun import BOT_NAME, BOT_USERNAME
+from Codexun.config import BOT_NAME
 
 import psutil
 from pyrogram import Client
@@ -53,15 +54,15 @@ stats1 = InlineKeyboardMarkup(
                 text="System 💻", callback_data=f"sys_stats"
             ),
             InlineKeyboardButton(
-                text="Storage 💾", callback_data=f"sto_stats"
+                text="Bots 🤖", callback_data=f"bot_stats"
             ),
         ],
         [
             InlineKeyboardButton(
-                text="Bot 🤖", callback_data=f"bot_stats"
+                text="Assistant 🙋🏻‍♂️", callback_data=f"assis_stats"
             ),
             InlineKeyboardButton(
-                text="Assistant 🙋🏻‍♂️", callback_data=f"assis_stats"
+                text="Storage 🔋", callback_data=f"sto_stats"
             )
         ],
     ]
@@ -114,9 +115,9 @@ async def gstats(_, message):
     end = datetime.now()
     resp = (end - start).microseconds / 1000
     smex = f"""
-**{BOT_NAME} General Stats 🤖**</u>
+<u>**{BOT_NAME} General Stats 🚀**</u>
     
-Ping: `🚀 {resp} ms`
+Ping: `☃️ {resp} ms`
 {uptime}
 
 **Get stats from given below.**
@@ -144,16 +145,16 @@ async def stats_markup(_, CallbackQuery):
         bot_uptime = int(time.time() - boottime)
         uptime = f"{get_readable_time((bot_uptime))}"
         smex = f"""
-[•]<u>**System Stats**</u>
+<u>**{BOT_NAME} System Stats 💻**</u>
 
-**Uptime:** {uptime}
-**System Proc:** Online
-**Platform:** {sc}
-**Architecture:** {arch}
-**Ram:** {ram}
-**PyTgCalls Version:** {pytover.__version__}
-**Python Ver:** {pyver.split()[0]}
-**Pyrogram Ver:** {pyrover}"""
+**• Uptime :** {uptime}
+**• System Proc :** Online
+**• Platform :** {sc}
+**• Architecture:** {arch}
+**• Ram :** {ram}
+**• PyTgCalls Version :** {pytover.__version__}
+**• Python Ver :** {pyver.split()[0]}
+**• Pyrogram Ver :** {pyrover}"""
         await CallbackQuery.edit_message_text(smex, reply_markup=statsback)
     if command == "sto_stats":
         await CallbackQuery.edit_message_text(
@@ -167,11 +168,11 @@ async def stats_markup(_, CallbackQuery):
         free = hdd.free / (1024.0 ** 3)
         free = str(free)
         smex = f"""
-[•]<u>**Storage Stats**</u>
+<u>**{BOT_NAME} Storage Stats 🔋**</u>
 
-**Storage Avail:** {total[:4]} GiB 
-**Storage Used:** {used[:4]} GiB
-**Storage Left:** {free[:4]} GiB"""
+**• Storage Avail :** {total[:4]} GiB 
+**• Storage Used :** {used[:4]} GiB
+**• Storage Left :** {free[:4]} GiB"""
         await CallbackQuery.edit_message_text(smex, reply_markup=statsback)
     if command == "bot_stats":
         await CallbackQuery.edit_message_text(
@@ -191,11 +192,11 @@ async def stats_markup(_, CallbackQuery):
             except Exception:
                 continue
         smex = f"""
-[•]<u>**Bot Stats**</u>
+<u>**{BOT_NAME} Bot Stats 🤖**</u>
 
-**Modules Loaded:** {modules_loaded}
-**Sudo Users:** {j}
-**Served Chats:** {len(served_chats)}"""
+**• Modules Loaded :** {modules_loaded}
+**• Sudo Users :** {j}
+**• Served Chats :** {len(served_chats)}"""
         await CallbackQuery.edit_message_text(smex, reply_markup=statsback)
     if command == "assis_stats":
         await CallbackQuery.edit_message_text(
@@ -215,13 +216,13 @@ async def stats_markup(_, CallbackQuery):
                 privates_ub += 1
 
         smex = f"""
-[•]<u>Assistant Stats</u>
+<u>**{BOT_NAME} Assistant Stats 🚶🏻**</u>
 
-**Dialogs:** {total_ub}
-**Groups:** {groups_ub} 
-**Channels:** {channels_ub} 
-**Bots:** {bots_ub}
-**Users:** {privates_ub}"""
+**• Dialogs :** {total_ub}
+**• Groups :** {groups_ub} 
+**• Channels :** {channels_ub} 
+**• Bots :** {bots_ub}
+**• Users :** {privates_ub}"""
         await CallbackQuery.edit_message_text(smex, reply_markup=statsback)
     if command == "gen_stats":
         start = datetime.now()
@@ -232,10 +233,10 @@ async def stats_markup(_, CallbackQuery):
         end = datetime.now()
         resp = (end - start).microseconds / 1000
         smex = f"""
-[•]<u>General Stats</u>
+<u>**{BOT_NAME} General Stats 🚀**</u>
 
-**Ping:** `⚡{resp} ms`
+**Ping :** `☃️ {resp} ms`
 {uptime}"""
-        await CallbackQuery.edit_message_text(smex, reply_markup=statsback)
+        await CallbackQuery.edit_message_text(smex, reply_markup=stats1)
     if command == "wait_stats":
         await CallbackQuery.answer()
