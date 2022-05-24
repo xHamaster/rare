@@ -171,7 +171,6 @@ async def gstats(_, message):
         await message.delete()
     except:
         pass
-    uptime = await bot_sys_stats()
     response = await message.reply_text("Getting Stats!"
     )
     end = datetime.now()
@@ -180,7 +179,7 @@ async def gstats(_, message):
 [•]<u>**General Stats**</u>
     
 Ping: `⚡{resp} ms`
-{uptime}
+Choose the needed stats.
     """
     await response.edit_text(smex, reply_markup=stats1)
     return
