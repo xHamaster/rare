@@ -25,7 +25,7 @@ from pyrogram import filters
 from pyrogram.types import Message
 from pytgcalls import __version__ as pytover
 
-from Codexun import (BOT_ID, BOT_NAME, SUDO_USERS, app)
+from Codexun import (BOT_ID, BOT_NAME, SUDO_USERS, app, boottime)
 from Codexun import client as userbot
 from Codexun.database.chats import get_served_chats
 from Codexun.database.sudo import get_sudoers
@@ -164,6 +164,19 @@ stats6 = InlineKeyboardMarkup(
     ]
 )
 
+async def bot_sys_stats():
+    bot_uptime = int(time.time() - boottime)
+    cpu = psutil.cpu_percent(interval=0.5)
+    mem = psutil.virtual_memory().percent
+    disk = psutil.disk_usage("/").percent
+    stats = f"""
+**Uptime:** {get_readable_time((bot_uptime))}
+**CPU:** {cpu}%
+**RAM:** {mem}%
+**Disk: **{disk}%"""
+    return stats
+
+
 @app.on_message(filters.command("stats") & ~filters.edited)
 async def gstats(_, message):
     start = datetime.now()
@@ -171,6 +184,7 @@ async def gstats(_, message):
         await message.delete()
     except:
         pass
+    uptime = await bot_sys_stats()
     response = await message.reply_text("Getting Stats!"
     )
     end = datetime.now()
@@ -179,18 +193,58 @@ async def gstats(_, message):
 [•]<u>**General Stats**</u>
     
 Ping: `⚡{resp} ms`
-Choose the needed stats.
+{uptime}
     """
     await response.edit_text(smex, reply_markup=stats1)
     return
 
+
 @app.on_callback_query(
     filters.regex(
-        pattern=r"^(bot_stats|gen_stats|assis_stats)$"
+        pattern=r"^(sys_stats|sto_stats|bot_stats|Dashboard|mongo_stats|gen_stats|assis_stats|wait_stats)$"
     )
 )
 async def stats_markup(_, CallbackQuery):
     command = CallbackQuery.matches[0].group(1)
+    if command == "sys_stats":
+        await CallbackQuery.answer("Getting System Stats...", show_alert=True)
+        sc = platform.system()
+        arch = platform.machine()
+        ram = (
+            str(round(psutil.virtual_memory().total / (1024.0 ** 3))) + " GB"
+        )
+        bot_uptime = int(time.time() - boottime)
+        uptime = f"{get_readable_time((bot_uptime))}"
+        smex = f"""
+[•]<u>**System Stats**</u>
+
+**Uptime:** {uptime}
+**System Proc:** Online
+**Platform:** {sc}
+**Architecture:** {arch}
+**Ram:** {ram}
+**PyTgCalls Version:** {pytover.__version__}
+**Python Ver:** {pyver.split()[0]}
+**Pyrogram Ver:** {pyrover}"""
+        await CallbackQuery.edit_message_text(smex, reply_markup=stats2)
+    if command == "sto_stats":
+        await CallbackQuery.answer(
+            "Getting Storage Stats...", show_alert=True
+        )
+        hdd = psutil.disk_usage("/")
+        total = hdd.total / (1024.0 ** 3)
+        total = str(total)
+        used = hdd.used / (1024.0 ** 3)
+        used = str(used)
+        free = hdd.free / (1024.0 ** 3)
+        free = str(free)
+        smex = f"""
+[•]<u>**Storage Stats**</u>
+
+**Storage Avail:** {total[:4]} GiB 
+**Storage Used:** {used[:4]} GiB
+**Storage Left:** {free[:4]} GiB"""
+        await CallbackQuery.edit_message_text(smex, reply_markup=stats3)
     if command == "bot_stats":
         await CallbackQuery.answer("Getting Bot Stats...", show_alert=True)
         served_chats = []
