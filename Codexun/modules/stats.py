@@ -18,6 +18,7 @@ from pyrogram.types import (
 )
 from Codexun import BOT_NAME, BOT_USERNAME
 from Codexun.config import BOT_NAME
+from Codexun.config import IMG_1
 
 import psutil
 from pyrogram import Client
@@ -51,7 +52,7 @@ stats1 = InlineKeyboardMarkup(
     [
         [
             InlineKeyboardButton(
-                text="System 💻", callback_data=f"sys_stats"
+                text="System 🖥️", callback_data=f"sys_stats"
             ),
             InlineKeyboardButton(
                 text="Bots 🤖", callback_data=f"bot_stats"
@@ -59,11 +60,16 @@ stats1 = InlineKeyboardMarkup(
         ],
         [
             InlineKeyboardButton(
-                text="Assistant 🙋🏻‍♂️", callback_data=f"assis_stats"
+                text="Assist 🙋🏻‍♂️", callback_data=f"assis_stats"
             ),
             InlineKeyboardButton(
                 text="Storage 🔋", callback_data=f"sto_stats"
             )
+        ],
+       [
+            InlineKeyboardButton(
+                text="Close Stats 🗑️", callback_data=f"close_stats"
+            ),
         ],
     ]
 )
@@ -95,10 +101,10 @@ async def bot_sys_stats():
     mem = psutil.virtual_memory().percent
     disk = psutil.disk_usage("/").percent
     stats = f"""
-**• Uptime :** `{get_readable_time((bot_uptime))}`
-**• CPU :** `{cpu}%`
-**• RAM :** `{mem}%`
-**• Disk : **`{disk}%`"""
+**• Uptime :** {get_readable_time((bot_uptime))}
+**• CPU :** {cpu}%
+**• RAM :** {mem}%
+**• Disk : **{disk}%"""
     return stats
 
 
@@ -110,17 +116,19 @@ async def gstats(_, message):
     except:
         pass
     uptime = await bot_sys_stats()
-    response = await message.reply_text("Getting Stats..."
+    response = await message.reply_photo(
+        photo=f"{IMG_1}",
+        caption=f"""Getting Stats..."""
     )
     end = datetime.now()
     resp = (end - start).microseconds / 1000
     smex = f"""
-<u>**{BOT_NAME} General Stats 🚀**</u>
+<u>**{BOT_NAME} General Stats 🤖**</u>
     
-Ping: `☃️ {resp} ms`
+Ping: `{resp} ms`
 {uptime}
 
-**Get stats from given below.**
+**Get your needed stats from the options given below**
     """
     await response.edit_text(smex, reply_markup=stats1)
     return
@@ -128,7 +136,7 @@ Ping: `☃️ {resp} ms`
 
 @app.on_callback_query(
     filters.regex(
-        pattern=r"^(sys_stats|sto_stats|bot_stats|Dashboard|mongo_stats|gen_stats|assis_stats|wait_stats)$"
+        pattern=r"^(sys_stats|sto_stats|bot_stats|Dashboard|mongo_stats|gen_stats|assis_stats|wait_stats|stats_close)$"
     )
 )
 async def stats_markup(_, CallbackQuery):
@@ -145,7 +153,7 @@ async def stats_markup(_, CallbackQuery):
         bot_uptime = int(time.time() - boottime)
         uptime = f"{get_readable_time((bot_uptime))}"
         smex = f"""
-<u>**{BOT_NAME} System Stats 💻**</u>
+<u>**{BOT_NAME} System Stats 🖥️**</u>
 
 **• Uptime :** {uptime}
 **• System Proc :** Online
@@ -227,16 +235,17 @@ async def stats_markup(_, CallbackQuery):
     if command == "gen_stats":
         start = datetime.now()
         uptime = await bot_sys_stats()
-        await CallbackQuery.answer(
-            "Getting General Stats...", show_alert=True
-        )
         end = datetime.now()
         resp = (end - start).microseconds / 1000
         smex = f"""
-<u>**{BOT_NAME} General Stats 🚀**</u>
+<u>**{BOT_NAME} General Stats 🤖**</u>
 
-**Ping :** `☃️ {resp} ms`
-{uptime}"""
+**Ping :** `{resp} ms`
+{uptime}
+
+**Get your needed stats from the options given below**"""
         await CallbackQuery.edit_message_text(smex, reply_markup=stats1)
     if command == "wait_stats":
         await CallbackQuery.answer()
+   if command == "stats_close":
+        await CallbackQuery.delete()
