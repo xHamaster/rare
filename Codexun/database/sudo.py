@@ -1,5 +1,5 @@
 from typing import Dict, List, Union
-from Codexun import db
+from Codexun.database import db
 
 sudoersdb = db.sudoers
 
