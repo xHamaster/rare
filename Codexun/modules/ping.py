@@ -3,7 +3,7 @@ from datetime import datetime
 
 import psutil
 from Codexun import Music_START_TIME, app
-from Codexun.helpers.time import get_readable_time
+from Codexun.utils.time import get_readable_time
 from pyrogram import filters
 
 
@@ -25,7 +25,7 @@ Disk: {disk}%
 async def ping(_, message):
     uptime = await bot_sys_stats()
     start = datetime.now()
-    response = await message.reply_text("ping...")
+    response = await message.reply_text("`pinging...`")
     end = datetime.now()
     resp = (end - start).microseconds / 1000
     await response.edit(
