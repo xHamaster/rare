@@ -68,7 +68,7 @@ stats1 = InlineKeyboardMarkup(
         ],
        [
             InlineKeyboardButton(
-                text="Close Stats 🗑️", callback_data=f"close_stats"
+                text="Close Stats 🗑️", callback_data=f"statsclose"
             ),
         ],
     ]
@@ -247,5 +247,7 @@ async def stats_markup(_, CallbackQuery):
         await CallbackQuery.edit_message_text(smex, reply_markup=stats1)
     if command == "wait_stats":
         await CallbackQuery.answer()
-   if command == "stats_close":
-        await CallbackQuery.delete()
+
+@app.on_callback_query(filters.regex("statsclose"))
+async def statsclose(_, query: CallbackQuery):
+   await query.message.delete()
