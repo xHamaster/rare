@@ -19,6 +19,9 @@ ASSUSERNAME = ""
 ### Boot Time
 boottime = time.time()
 
+### Music Start Time
+Music_START_TIME = time.time()
+
 app = Client(
     "codexunmusic",
     config.API_ID,
