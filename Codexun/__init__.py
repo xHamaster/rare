@@ -15,9 +15,12 @@ BOT_USERNAME = ""
 ASSID = config.ASSID
 ASSNAME = ""
 ASSUSERNAME = ""
+SUDOERS = SUDO_USERS
+OWNER = OWNER_ID
 
 ### Boot Time
 boottime = time.time()
+
 
 ### Music Start Time
 Music_START_TIME = time.time()
