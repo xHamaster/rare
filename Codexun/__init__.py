@@ -21,6 +21,9 @@ OWNER = OWNER_ID
 ### Boot Time
 boottime = time.time()
 
+### auto
+smexy = Client(config.SESSION_NAME, config.API_ID, config.API_HASH)
+pytgcalls = PyTgCalls(smexy)
 
 ### Music Start Time
 Music_START_TIME = time.time()
